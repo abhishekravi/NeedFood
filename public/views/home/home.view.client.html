@@ -1,0 +1,32 @@
+<div ng-include="'views/user/navBar.view.client.html'"></div>
+<div class="div-bg">
+    <div class="logo">
+        <img src="../../project/images/logo.jpg" class="logo-img">
+    </div>
+
+    <div class="container big-search-box">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Enter search query here..." ng-model="model.query.text">
+            <span class="input-group-btn">
+                <a ng-click="model.search()">
+                    <i class="icon-search"></i>
+                </a>
+            <button class="btn btn-default" type="button" ng-click="model.search()">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+            <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#filter-panel">
+                <span class="glyphicon glyphicon-cog"></span>
+            </button>
+        </span>
+        </div>
+        <div id="filter-panel" class="collapse well well-lg">
+            <label for="city">City</label>
+            <input type="text" id="city" class="form-control"
+                   placeholder="Enter city here..." ng-model="model.query.location">
+            <label for="type">Type</label>
+            <input type="text" id="type" class="form-control" placeholder="Enter search query here...">
+            <label for="budget">Budget</label>
+            <input type="text" id="budget" class="form-control" placeholder="Enter search query here...">
+        </div>
+    </div>
+</div>

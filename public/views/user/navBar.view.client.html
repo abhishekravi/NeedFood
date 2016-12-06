@@ -1,0 +1,56 @@
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavBarController as model">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class=" navbar-header navbar-brand hidden-xs" href="#/">
+                NeedFood!
+            </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#/user" ng-show = "model.isLoggedIn">
+                    <span class="glyphicon glyphicon-user"></span></a>
+            </li>
+            <li><a ng-click="model.logout()" ng-show="model.isLoggedIn">
+                <span class="glyphicon glyphicon-log-out"></span> Logout</a>
+            </li>
+            <li><a data-toggle="modal" href="#myLogin" ng-show = "!model.isLoggedIn">
+                <span class="glyphicon glyphicon-log-in"></span> Login</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Login modal code-->
+<div class="modal fade" id="myLogin" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Login</h4>
+            </div>
+
+            <div class="modal-body" ng-include="'views/user/login.view.client.html'"></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- register modal code-->
+<div class="modal fade" id="myRegister" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Sign up</h4>
+            </div>
+            <div class="modal-dialog">
+                <div class="modal-body" ng-include="'views/user/register.view.client.html'"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
