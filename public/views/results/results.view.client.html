@@ -1,7 +1,7 @@
 <div ng-include="'views/user/navBar.view.client.html'"></div>
-<div class="container-fluid">
+<div class="container-fluid" style="background-color: #ecf0f1">
     <div class="logo col-md-3">
-        <img src="../../project/images/logo.jpg" class="logo-img">
+        <img src="../../images/logo.jpg" class="logo-img">
     </div>
     <div class="col-md-10 big-search-box">
         <div class="input-group">
@@ -34,7 +34,7 @@
 <table class="table table-striped table-hover">
     <tr ng-repeat="b in model.results.businesses" ng-show="model.results">
         <td ng-click="model.getDetails()">
-            <div class="col-md-2"><img src="{{b.image_url}}"></div>
+            <div class="col-md-2"><img ng-src="{{b.image_url}}"></div>
             <div class="col-md-6 "><span class="name-style">{{b.name}}</span><br>
                 <span ng-repeat="a in b.location.display_address">
                     {{a}}
@@ -52,7 +52,7 @@
                     <b><span class="glyphicon glyphicon-earphone"></span></b> {{b.display_phone}}<br>
                 </div>
             </div>
-            <div class="col-md-2"><i class="fa fa-yelp" aria-hidden="true"></i><img src="{{b.rating_img_url}}"
+            <div class="col-md-2"><i class="fa fa-yelp" aria-hidden="true"></i><img ng-src="{{b.rating_img_url}}"
                                                                                     title="Yelp rating: {{b.rating}}">
             </div>
         </td>

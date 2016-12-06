@@ -6,19 +6,19 @@
     function Config($routeProvider) {
         $routeProvider
             .when("/", {
-                templateUrl: "/project/views/home/home.view.client.html",
+                templateUrl: "/views/home/home.view.client.html",
                 controller: "HomeController",
                 controllerAs: "model"
             })
             .when("/user", {
-                templateUrl: "/project/views/user/profile.view.client.html",
+                templateUrl: "/views/user/profile.view.client.html",
                 controller: "ProfileController",
                 controllerAs: "model",
                 resolve: {
                     checkLogin: checkLogin
                 }
             }).when("/results", {
-            templateUrl: "/project/views/results/results.view.client.html",
+            templateUrl: "/views/results/results.view.client.html",
             controller: "ResultsController",
             controllerAs: "model"
         })
