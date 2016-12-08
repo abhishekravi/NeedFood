@@ -9,7 +9,9 @@
     function SearchService($http) {
         var api = {
             "searchQuery": searchQuery,
-            results: ''
+            results: '',
+            place: '',
+            query: ''
         };
         return api;
 

@@ -68,3 +68,17 @@ body {
     border-width: 1px;
     border-color: grey;
 }
+
+.filled:before{
+    content: '★'
+}
+
+.notfilled:before{
+    content: '☆'
+}
+
+.rating > span {
+    display: inline-block;
+    position: relative;
+    width: 0.9em;
+}

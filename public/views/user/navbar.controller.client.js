@@ -18,7 +18,7 @@
         var vm = this;
         vm.isLoggedIn = false;
         vm.logout = logout;
-
+        vm.back = UserService.back;
         function init() {
             UserService.checkLogin()
                 .then(function (user) {

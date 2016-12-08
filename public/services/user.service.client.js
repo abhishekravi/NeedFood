@@ -22,7 +22,8 @@
             "login" : login,
             checkLogin: checkLogin,
             logout: logout,
-            findCurrentUser: findCurrentUser
+            findCurrentUser: findCurrentUser,
+            back: ''
         };
         return api;
 

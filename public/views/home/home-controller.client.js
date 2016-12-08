@@ -34,7 +34,7 @@
         function search() {
             SearchService.searchQuery(vm.query)
                 .then(function (results) {
-                    SearchService.results = results.data;
+                    SearchService.results = results;
                     $location.url("/results");
                 },function (error) {
                     vm.result = error;

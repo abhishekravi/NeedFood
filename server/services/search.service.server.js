@@ -38,6 +38,8 @@ module.exports = function (app) {
             limit: 10,
             actionlinks: true
         };
+        if(query.offset)
+            params['offset'] = query.offset;
         if(query.text && query.text != '')
             params['term'] = query.text;
         var consumerSecret = process.env.YELP_CONSUMER_SECRET; //Consumer Secret
@@ -50,8 +52,10 @@ module.exports = function (app) {
         var apiURL = url+'?'+paramURL;
         request(apiURL, function(error, response, body){
             if (!error && response.statusCode == 200) {
-                //var data = JSON.parse(body)
-                res.send(body);
+                body[query] = query;
+                var data = JSON.parse(body);
+                data['query'] = query;
+                res.json(data);
             } else{
                 res.sendStatus(400).send(body);
             }

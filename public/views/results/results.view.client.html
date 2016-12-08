@@ -8,6 +8,7 @@
 
             <input type="text" class="form-control" placeholder="Enter search query here..."
                    ng-model="model.query.text">
+            <input type="hidden" value="0" ng-model="model.query.offset">
             <span class="input-group-btn">
                 <a ng-click="model.search()">
                     <i class="icon-search"></i>
@@ -31,9 +32,16 @@
         </div>
     </div>
 </div>
+<div class="text-center">
+    <ul class="pagination" ng-show="model.pageNums.length > 0">
+        <li ng-repeat="p in model.pageNums">
+            <a ng-click="model.nextPage(p)">{{p}}</a>
+        </li>
+    </ul>
+</div>
 <table class="table table-striped table-hover">
     <tr ng-repeat="b in model.results.businesses" ng-show="model.results">
-        <td ng-click="model.getDetails()">
+        <td ng-click="model.getDetails(b)">
             <div class="col-md-2"><img ng-src="{{b.image_url}}"></div>
             <div class="col-md-6 "><span class="name-style">{{b.name}}</span><br>
                 <span ng-repeat="a in b.location.display_address">
@@ -58,3 +66,10 @@
         </td>
     </tr>
 </table>
+<div class="text-center">
+    <ul class="pagination" ng-show="model.pageNums.length > 0">
+        <li ng-repeat="p in model.pageNums">
+            <a ng-click="model.nextPage(p)">{{p}}</a>
+        </li>
+    </ul>
+</div>
