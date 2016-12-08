@@ -17,6 +17,7 @@ module.exports = function () {
             id: {type: String},
             token: {type: String}
         },
+        role:{type: String, enum:['ADMIN','USER'], default:'USER'},
         dateCreated: {type: Date, default: Date.now()}
     }, {collection: "user"});
     return UserSchema;

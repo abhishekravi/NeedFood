@@ -1,0 +1,43 @@
+<table class="table" ng-show="model.users">
+    <thead>
+    <tr>
+        <th>Users</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in model.users">
+        <td>
+            {{user.username}}
+        </td>
+        <td>
+            <button ng-click="model.deleteUser()"
+                    class="btn btn-danger pull-right">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<table class="table" ng-show="model.comments">
+    <thead>
+    <tr>
+        <th>Users</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="comment in model.comments">
+        <td>
+            {{comment.text}}
+        </td>
+        <td>
+            <button ng-click="model.deleteComment()"
+                    class="btn btn-danger pull-right">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

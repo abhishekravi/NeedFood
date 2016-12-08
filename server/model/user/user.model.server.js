@@ -5,6 +5,7 @@ module.exports = function () {
     var UserModel = mongoose.model("UserModel", UserSchema);
     // user model apis.
     var api = {
+        findUsers: findUsers,
         createUser: createUser,
         findUserById: findUserById,
         updateUser: updateUser,
@@ -23,6 +24,10 @@ module.exports = function () {
      */
     function setModel(_model) {
         model = _model;
+    }
+
+    function findUsers() {
+        return UserModel.find();
     }
 
     /**
@@ -131,19 +136,10 @@ module.exports = function () {
         return UserModel.findOne(
             {_id: uid},
             function (err, user) {
-                return model.websiteModel.findAllWebsitesForUser(uid)
-                    .then(function (websites) {
-                        for (w in websites) {
-                            model.pageModel.findAllPagesForWebsite(websites[w]._id)
-                                .then(function (pages) {
-                                    for (p in pages) {
-                                        model.widgetModel.cleanup(pages[p]._id)
-                                            .then(function () {
-                                                pages[p].remove();
-                                            });
-                                    }
-                                    websites[w].remove();
-                                })
+                return model.commentModel.findCommentByUser(uid)
+                    .then(function (comments) {
+                        for (c in comments) {
+                            model.commentModel.deleteComment(c._id)
                         }
                         user.remove();
                     });

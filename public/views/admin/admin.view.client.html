@@ -1,1 +1,7 @@
 <div ng-include="'views/user/navBar.view.client.html'"></div>
+
+<div class="container">
+    Welcome Administrator
+    <button class="btn-primary btn-block" ng-click="model.getUsers()"> Get all User</button>
+    <div ng-include="'views/admin/admin.list.view.client.html'"></div>
+</div>

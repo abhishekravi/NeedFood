@@ -21,6 +21,7 @@
             "deleteUser": deleteUser,
             "login" : login,
             checkLogin: checkLogin,
+            checkAdmin: checkAdmin,
             logout: logout,
             findCurrentUser: findCurrentUser,
             back: ''
@@ -34,6 +35,10 @@
 
         function checkLogin(){
             return $http.post('/api/checkLogin');
+        }
+
+        function checkAdmin(){
+            return $http.post('/api/checkAdmin');
         }
         
         function logout() {

@@ -37,12 +37,14 @@ module.exports = function (app, model) {
     passport.deserializeUser(deserializeUser);
 
     app.get('/api/user', findUser);
+    app.get('/api/users', findUsers);
     app.get('/api/user/:uid', findUserById);
     app.post('/api/register', createUser);
     app.put('/api/user/:uid', correctUserCheck, updateUser);
     app.delete('/api/user/:uid', correctUserCheck, deleteUser);
     app.post('/api/login', passport.authenticate('local'), login);
     app.post('/api/checkLogin', checkLogin);
+    app.post('/api/checkAdmin', checkAdmin);
     app.post('/api/logout', logout);
     app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
     app.get('/auth/google/callback',
@@ -65,6 +67,25 @@ module.exports = function (app, model) {
      */
     function checkLogin(req, res) {
         res.send(req.isAuthenticated() ? req.user : '0');
+    }
+
+    /**
+     * method to check if user is Admin.
+     * @param req
+     * @param res
+     */
+    function checkAdmin(req, res) {
+        var isAdmin;
+        var loggerIn = req.isAuthenticated();
+        if (loggerIn) {
+            isAdmin = req.user.role == 'ADMIN';
+            if (loggerIn && isAdmin)
+                res.json(req.user);
+            else
+                res.send('0');
+        } else {
+            res.send('0');
+        }
     }
 
     /**
@@ -99,7 +120,7 @@ module.exports = function (app, model) {
             .then(
                 function (user) {
 
-                    if (user!=null && user.username === username && bcrypt.compareSync(password, user.password)) {
+                    if (user != null && user.username === username && bcrypt.compareSync(password, user.password)) {
                         return done(null, user);
                     } else {
                         return done(null, '0');
@@ -266,6 +287,21 @@ module.exports = function (app, model) {
     }
 
     /**
+     * method to find user.
+     * @param req
+     * request
+     * @param res
+     * response
+     */
+    function findUsers(req, res) {
+        var body = req.body;
+        model.userModel.findUsers()
+            .then(function (users) {
+                res.json(users);
+            });
+    }
+
+    /**
      * method to find user by username and password.
      * @param req
      * request
@@ -352,7 +388,7 @@ module.exports = function (app, model) {
      */
     function createUser(req, res) {
         var user = req.body;
-        if(user.password)
+        if (user.password)
             user.password = bcrypt.hashSync(user.password);
         model.userModel.createUser(user)
             .then(

@@ -27,6 +27,7 @@
         </div>
         <a ng-click="model.updateUser()" class="btn btn-success  btn-block">Update</a>
         <a ng-click="model.deleteUser()" class="btn btn-warning  btn-block">Unregister</a>
+        <a href="#/admin" class="btn btn-warning  btn-block" ng-show="model.user.role == 'ADMIN'">Admin</a>
         <div id="profileMessage" class="alert alert-success hidden">
             {{model.message}}
         </div>

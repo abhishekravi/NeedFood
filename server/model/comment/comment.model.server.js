@@ -12,6 +12,7 @@ module.exports = function () {
         findCommentByPlace: findCommentByPlace,
         findCommentByPlaceUser: findCommentByPlaceUser,
         deleteComment: deleteComment,
+        findComments: findComments,
         setModel: setModel
     };
     return api;
@@ -24,6 +25,9 @@ module.exports = function () {
         model = _model;
     }
 
+    function findComments() {
+        return CommentModel.find();
+    }
     /**
      * to create a comment
      * @param comment

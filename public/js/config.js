@@ -20,7 +20,6 @@
                 controller: "AdminController",
                 controllerAs: "model",
                 resolve: {
-                    checkLogin: checkLogin,
                     checkAdmin: checkAdmin
                 }
             })
@@ -56,7 +55,7 @@
     
     function checkAdmin($q, UserService, $location) {
         var deferred = $q.defer();
-        UserService.checkLogin()
+        UserService.checkAdmin()
             .success(function (user) {
                 if (user != '0')
                     deferred.resolve();

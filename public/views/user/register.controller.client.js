@@ -24,8 +24,11 @@
          * user object
          */
         function register(user) {
-            user = UserService.createUser(user);
-            $location.url("/user");
+            UserService.createUser(user)
+                .then(function (user) {
+                    $location.url("/user");
+                });
+
         }
     }
 
