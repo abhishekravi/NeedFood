@@ -28,13 +28,16 @@ module.exports = function () {
     function findComments() {
         return CommentModel.find();
     }
+
     /**
      * to create a comment
      * @param comment
      * comment object
      * @returns {user}
      */
-    function createComment(comment) {
+    function createComment(comment, uid, pid) {
+        comment.user = uid;
+        comment.yelpid = pid;
         return CommentModel.create(comment);
     }
 
@@ -86,10 +89,7 @@ module.exports = function () {
      * @returns {*|Query}
      */
     function findCommentByPlace(pid) {
-        return CommentModel.find(
-            {
-                place: pid
-            });
+        return CommentModel.find({yelpid: pid});
     }
 
     /**

@@ -20,7 +20,7 @@
             return $http.get('/api/users', query);
         }
         function getComments() {
-            return $http.get('/api/comments', query);
+            return $http.get('/api/comments');
         }
         
         function deleteComment(id) {

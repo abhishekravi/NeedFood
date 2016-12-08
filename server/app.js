@@ -11,4 +11,5 @@ module.exports = function(app) {
     var model = require("./model/models.server.js")();
     require("./services/user.service.server.js")(app, model);
     require("./services/search.service.server.js")(app, model);
+    require("./services/crud.service.server.js")(app, model);
 };

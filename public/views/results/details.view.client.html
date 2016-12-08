@@ -28,11 +28,11 @@
         </div>
         <div class="pull-left" title="User Rating">
             <i class="fa fa-user-circle" aria-hidden="true"></i>
-            <span class="filled" ng-click="model.setRating(1)"></span>
-            <span class="filled" ng-click="model.setRating(2)"></span>
-            <span class="filled" ng-click="model.setRating(3)"></span>
-            <span class="filled" ng-click="model.setRating(4)"></span>
-            <span class="notfilled" ng-click="model.setRating(5)"></span>
+            <span class="{{model.stars[0]}}" ng-click="model.saveRating(1)"></span>
+            <span class="{{model.stars[1]}}" ng-click="model.saveRating(2)"></span>
+            <span class="{{model.stars[2]}}" ng-click="model.saveRating(3)"></span>
+            <span class="{{model.stars[3]}}" ng-click="model.saveRating(4)"></span>
+            <span class="{{model.stars[4]}}" ng-click="model.saveRating(5)"></span>
         </div>
     </div>
     <!-- comment section-->
@@ -40,8 +40,19 @@
         <b>Comments:</b><br>
         <textarea placeholder="enter your comments..." ng-model="model.comment.text" rows="3"
                   class="form-control"></textarea>
-        <button ng-click="model.saveComment()" class="btn btn-primary btn-block"
-        ng-disabled="model.notLoggedIn" title="Login to comment...">Comment</button>
+        <div ng-show="model.comment == undefined || model.comment._id == undefined ||  model.comment.text == ''">
+            <button id="comment-btn" ng-click="model.saveComment()" class="btn btn-primary btn-block"
+                    ng-disabled="model.notLoggedIn" title="Login to comment">Comment
+            </button>
+        </div>
+        <div ng-show="model.comment._id != undefined && model.comment._id != '' &&  model.comment.text != ''">
+            <button id="updt-comment-btn" ng-click="model.updateComment()" class="btn btn-primary btn-block"
+                    ng-disabled="model.notLoggedIn" title="save comment">Comment
+            </button>
+            <button id="del-comment-btn" ng-click="model.deleteComment()" class="btn btn-danger btn-block"
+                    ng-disabled="model.notLoggedIn" title="delete comment">delete
+            </button>
+        </div>
     </div>
 </div>
 
@@ -49,7 +60,9 @@
 <div class="container-fluid" ng-show="model.comments.length > 0">
     What other users say:
     <div ng-repeat="c in model.comments">
-        <b>{{c.user}} says:</b>
-        <textarea rows="3" class="form-control" disabled="disabled">{{c.text}}</textarea>
+        <div ng-show="model.comment.text != ''">
+            <b>{{c.username}} says:</b>
+            <textarea rows="3" class="form-control" disabled="disabled">{{c.text}}</textarea>
+        </div>
     </div>
 </div>

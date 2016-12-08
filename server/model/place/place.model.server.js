@@ -10,6 +10,7 @@ module.exports = function () {
         updatePlace: updatePlace,
         findPlaceByUser: findPlaceByUser,
         deletePlace: deletePlace,
+        findPlaceByYelpId: findPlaceByYelpId,
         setModel: setModel
     };
     return api;
@@ -28,8 +29,12 @@ module.exports = function () {
      * place object
      * @returns {user}
      */
-    function createPlace(place) {
-        return PlaceModel.create(place);
+    function createPlace(yelpid, uid) {
+        var placeObj ={
+            user: uid,
+            yelpid: yelpid
+        };
+        return PlaceModel.findOneAndUpdate({yelpid:yelpid},placeObj,{upsert:true});
     }
 
     /**
@@ -41,6 +46,18 @@ module.exports = function () {
     function findPlaceById(id) {
         return PlaceModel.findById(id);
     }
+
+    /**
+     * to find place by id.
+     * @param id
+     * place id
+     * @returns {*}
+     */
+    function findPlaceByYelpId(id) {
+        return PlaceModel.findOne({yelpid:id});
+    }
+
+
 
     /**
      * update a user.
