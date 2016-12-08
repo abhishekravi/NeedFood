@@ -136,12 +136,12 @@ module.exports = function () {
         return UserModel.findOne(
             {_id: uid},
             function (err, user) {
-                return model.commentModel.findCommentByUser(uid)
-                    .then(function (comments) {
-                        for (c in comments) {
-                            model.commentModel.deleteComment(c._id)
-                        }
-                        user.remove();
+                model.placeModel.deletePlacesForUser(uid)
+                    .then(function () {
+                        model.commentModel.deleteCommentForUser(uid)
+                            .then(function (c) {
+                                user.remove();
+                            });
                     });
             }
         );

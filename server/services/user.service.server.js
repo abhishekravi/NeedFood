@@ -416,10 +416,11 @@ module.exports = function (app, model) {
     function correctUserCheck(req, res, next) {
         var loggedIn = req.isAuthenticated();
         var sameUser = req.params.uid == req.user._id;
-        if (loggedIn && sameUser) {
+        var isAdmin = req.user.role == 'ADMIN';
+        if ((loggedIn && sameUser) ||(loggedIn && isAdmin)) {
             next();
         } else {
-            res.sendStatus(400).send("incorrect user id");
+            res.sendStatus(400);
         }
     }
 

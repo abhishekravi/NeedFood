@@ -11,6 +11,7 @@ module.exports = function () {
         findPlaceByUser: findPlaceByUser,
         deletePlace: deletePlace,
         findPlaceByYelpId: findPlaceByYelpId,
+        deletePlacesForUser: deletePlacesForUser,
         setModel: setModel
     };
     return api;
@@ -98,6 +99,18 @@ module.exports = function () {
     function deletePlace(pid) {
         return PlaceModel.remove(
             {_id: pid}
+        )
+    }
+
+    /**
+     * delete a place
+     * @param pid
+     * place id
+     * @returns {Promise}
+     */
+    function deletePlacesForUser(uid) {
+        return PlaceModel.remove(
+            {user: uid}
         )
     }
 };

@@ -2,16 +2,20 @@
     <thead>
     <tr>
         <th>Users</th>
+        <th>Role</th>
         <th>&nbsp;</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="user in model.users">
         <td>
-            {{user.username}}
+            <a ng-click="model.getComments(user._id)"> {{user.username}}</a>
         </td>
         <td>
-            <button ng-click="model.deleteUser()"
+            {{user.role}}
+        </td>
+        <td>
+            <button ng-click="model.deleteUser(user._id)"
                     class="btn btn-danger pull-right">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
@@ -23,17 +27,17 @@
 <table class="table" ng-show="model.comments">
     <thead>
     <tr>
-        <th>Users</th>
+        <th>Comments</th>
         <th>&nbsp;</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="comment in model.comments">
-        <td>
+        <td ng-show="comment.text != ''">
             {{comment.text}}
         </td>
-        <td>
-            <button ng-click="model.deleteComment()"
+        <td ng-show="comment.text != ''">
+            <button ng-click="model.deleteComment(comment._id, comment, comment.user)"
                     class="btn btn-danger pull-right">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>

@@ -13,6 +13,7 @@ module.exports = function () {
         findCommentByPlaceUser: findCommentByPlaceUser,
         deleteComment: deleteComment,
         findComments: findComments,
+        deleteCommentForUser: deleteCommentForUser,
         setModel: setModel
     };
     return api;
@@ -117,5 +118,15 @@ module.exports = function () {
      */
     function deleteComment(cid) {
         return CommentModel.remove({_id: cid});
+    }
+
+    /**
+     * delete a comment
+     * @param cid
+     * comment id
+     * @returns {Promise}
+     */
+    function deleteCommentForUser(uid) {
+        return CommentModel.remove({user: uid});
     }
 };

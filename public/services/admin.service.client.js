@@ -11,7 +11,7 @@
             getUsers: getUsers,
             getComments: getComments,
             deleteUser: deleteUser,
-            deleteComment: deleteComment
+            clearComment: clearComment
         };
         return api;
 
@@ -19,16 +19,16 @@
         function getUsers(query) {
             return $http.get('/api/users', query);
         }
-        function getComments() {
-            return $http.get('/api/comments');
+        function getComments(uid) {
+            return $http.get('/api/' + uid + '/allcomments');
         }
         
-        function deleteComment(id) {
-            return $http.delete('/api/comment', id);
+        function clearComment(cid, comment) {
+            return $http.put('/api/comment/' + cid, comment);
         }
 
         function deleteUser(id) {
-            return $http.delete('/api/user', id);
+            return $http.delete('/api/user/' + id);
         }
     }
 })();

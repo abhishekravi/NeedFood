@@ -4,6 +4,7 @@ module.exports = function (app, model) {
     app.put('/api/comment/:cid', updateComment);
     app.get('/api/:pid/comments', findCommentsForPlace);
     app.get('/api/comments', findUserComments);
+    app.get('/api/:uid/allcomments', findAllUserComments);
     app.delete('/api/comment/:cid', deleteComment);
 
 
@@ -64,6 +65,27 @@ module.exports = function (app, model) {
                 },
                 function (error) {
                     res.sendStatus(400).send(error);
+                });
+    }
+
+    /**
+     * method to find user by username.
+     * @param req
+     * request
+     * @param res
+     * response
+     * @returns {*}
+     * user object
+     */
+    function findAllUserComments(req, res) {
+        var uid = req.params.uid;
+        model.commentModel.findCommentByUser(uid)
+            .then(
+                function (comments) {
+                    res.send(comments);
+                },
+                function (error) {
+                    res.sendStatus(400);
                 });
     }
 

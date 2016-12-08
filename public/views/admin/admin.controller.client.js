@@ -18,8 +18,8 @@
         var vm = this;
         vm.getUsers = getUsers;
         vm.deleteUser = deleteUser;
+        vm.getComments = getComments;
         vm.deleteComment = deleteComment;
-        vm.deletePlace = deletePlace;
         function init(){
         }
         init();
@@ -31,16 +31,30 @@
                 });
 
         }
-        function deleteUser() {
-
+        function deleteUser(uid) {
+            AdminService.deleteUser(uid)
+                .then(function () {
+                    getUsers();
+                    console.log('user deleted');
+                },function (e) {
+                    console.log('user not deleted');
+            });
         }
 
-        function deleteComment() {
-
+        function deleteComment(cid,comment, uid) {
+            comment.text = '';
+            AdminService.clearComment(cid, comment)
+                .then(function () {
+                    getComments(uid);
+                });
         }
 
-        function deletePlace() {
-
+        function getComments(uid) {
+            AdminService.getComments(uid)
+                .then(function (comments) {
+                    console.log(comments);
+                    vm.comments = comments.data;
+                });
         }
     }
 
