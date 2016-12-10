@@ -4,6 +4,7 @@ module.exports = function () {
     var PlaceSchema = mongoose.Schema({
         user: {type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'},
         yelpid: {type: String, required:true},
+        name:{type: String},
         dateCreated: {type: Date, default: Date.now()}
     }, {collection: "place"});
     return PlaceSchema;

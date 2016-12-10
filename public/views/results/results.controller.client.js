@@ -14,33 +14,30 @@
      * serach service
      * @constructor
      */
-    function ResultsController($location, $route ,SearchService) {
+    function ResultsController($location, $routeParams, UserService, SearchService) {
         var vm = this;
         vm.results = [];
-        vm.search = search;
+        vm.querySearch = querySearch;
         vm.nextPage = nextPage;
         vm.getDetails = getDetails;
+        vm.querySelected = querySelected;
         vm.pageNums = [];
         var numOfPages = 0;
         var itemsPerPage = 10;
-        function init(){
-            vm.pageNums = [];
-            vm.results = SearchService.results.data;
-            if(SearchService.results.data) {
-                vm.query = SearchService.results.data.query;
-                SearchService.results = '';
-                numOfPages = vm.results.total / itemsPerPage;
-                console.log('total:' + vm.results.total);
-                console.log('num of pages:' + numOfPages);
-                for (var i = 0; i < numOfPages; i++)
-                    vm.pageNums[i] = i + 1;
-            } else if(SearchService.query != ''){
-                vm.query = SearchService.query;
-                SearchService.query = '';
-                vm.search();
-            }
+        var page = $routeParams["page"];
 
+        function init() {
+            if (page) {
+                vm.query = {
+                    'text': $routeParams["query"],
+                    'location': $routeParams["location"],
+                    'offset': (parseInt(page) - 1) * 10
+                };
+            } else
+                vm.query = {'text': $routeParams["query"],'location': $routeParams["location"]};
+            search();
         }
+
         init();
 
         /**
@@ -53,18 +50,26 @@
         function search() {
             SearchService.searchQuery(vm.query)
                 .then(function (result) {
-                    vm.pageNums= [];
+                    vm.pageNums = [];
                     vm.results = result.data;
                     vm.query = result.data.query;
                     numOfPages = vm.results.total / itemsPerPage;
                     console.log('total:' + vm.results.total);
                     console.log('num of pages:' + numOfPages);
-                    for(var i=0;i<numOfPages;i++)
+                    for (var i = 0; i < numOfPages; i++)
                         vm.pageNums[i] = i + 1;
-                },function (error) {
+                }, function (error) {
                     vm.result = error;
-                    $route.reload();
+                    //$route.reload();
                 });
+        }
+
+        function querySearch() {
+            $location.url('/results/' + $routeParams["location"] + '/' + vm.query.text);
+        }
+
+        function querySelected() {
+            $location.url("/results/" + vm.query.location + '/' + vm.selected);
         }
 
         /**
@@ -75,15 +80,19 @@
          * result object
          */
         function nextPage(offset) {
-            vm.query['offset'] = (offset-1) * 10;
-            search();
+            $location.url('/results/' + $routeParams["location"] + '/' + vm.query.text + '/' + offset);
         }
-        
+
         function getDetails(place) {
-            place.image_url = place.image_url.replace('ms.jpg', 'o.jpg');
-            SearchService.place = place;
-            SearchService.query = vm.query;
-            $location.url('/details');
+            UserService.back.push('results/' + vm.query.location + '/' + vm.query.text + '/' + ($routeParams["page"] ? $routeParams["page"] : 1));
+            $location.url('/details/'
+                + vm.query.location
+                + '/'
+                + vm.query.text
+                + '/'
+                + ($routeParams["page"] ? $routeParams["page"] : 1)
+                + '/'
+                + place.id);
         }
 
     }

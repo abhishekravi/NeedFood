@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavBarController as model">
     <div class="container-fluid">
-        <a class="navbar-brand navbar-default" href="#/{{model.back}}">
+        <a class="navbar-brand navbar-default" ng-click="model.goBack()">
             <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
         </a>
         <div class="navbar-header">

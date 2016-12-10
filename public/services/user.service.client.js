@@ -24,7 +24,8 @@
             checkAdmin: checkAdmin,
             logout: logout,
             findCurrentUser: findCurrentUser,
-            back: ''
+            back: [],
+            location: ''
         };
         return api;
 

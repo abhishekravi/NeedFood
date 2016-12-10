@@ -14,6 +14,9 @@ module.exports = function () {
         deleteComment: deleteComment,
         findComments: findComments,
         deleteCommentForUser: deleteCommentForUser,
+        saveReply: saveReply,
+        updateReply: updateReply,
+        deleteReply: deleteReply,
         setModel: setModel
     };
     return api;
@@ -27,7 +30,7 @@ module.exports = function () {
     }
 
     function findComments() {
-        return CommentModel.find();
+        return CommentModel.find().limit(10).sort({"dateCreated": -1});
     }
 
     /**
@@ -36,9 +39,10 @@ module.exports = function () {
      * comment object
      * @returns {user}
      */
-    function createComment(comment, uid, pid) {
+    function createComment(comment, uid, place) {
         comment.user = uid;
-        comment.yelpid = pid;
+        comment.yelpid = place.id;
+        comment.placename = place.name;
         return CommentModel.create(comment);
     }
 
@@ -64,9 +68,45 @@ module.exports = function () {
         return CommentModel.update(
             {_id: cid},
             {
-                text: comment.text,
-                rating: comment.rating
+                $set: {
+                    text: comment.text,
+                    rating: comment.rating
+                }
             }
+        );
+    }
+
+    /**
+     * update a comment.
+     * @param cid
+     * comment id
+     * @param comment
+     * comment object
+     * @returns {Query|*}
+     */
+    function saveReply(cid, reply) {
+        return CommentModel.findByIdAndUpdate(
+            cid, {$push: {"replies": reply}},{upsert:true}
+        );
+    }
+
+    function updateReply(cid, rid, reply) {
+        return CommentModel.update(
+            {
+                _id: cid,
+                'replies._id': rid
+            },
+            {$set: {'replies.$.text': reply.text}}
+        );
+    }
+
+    function deleteReply(cid, rid) {
+        return CommentModel.update(
+            {
+                _id: cid,
+                'replies._id': rid
+            },
+            {$pull: {'replies' : {_id: rid}}}
         );
     }
 

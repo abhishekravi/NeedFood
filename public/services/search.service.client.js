@@ -8,10 +8,8 @@
 
     function SearchService($http) {
         var api = {
-            "searchQuery": searchQuery,
-            results: '',
-            place: '',
-            query: ''
+            searchQuery: searchQuery,
+            searchBusiness: searchBusiness
         };
         return api;
 
@@ -19,5 +17,11 @@
         function searchQuery(query) {
             return $http.post('/api/search', query);
         }
+
+        function searchBusiness(query) {
+            return $http.post('/api/search/place', {text: query});
+        }
+
+
     }
 })();

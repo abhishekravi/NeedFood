@@ -10,7 +10,17 @@
                 controller: "HomeController",
                 controllerAs: "model"
             })
-            .when("/details", {
+            .when("/details/:location/:query/:page/:pid", {
+                templateUrl: "/views/results/details.view.client.html",
+                controller: "DetailsController",
+                controllerAs: "model"
+            })
+            .when("/details/:uid/:pid", {
+                templateUrl: "/views/results/details.view.client.html",
+                controller: "DetailsController",
+                controllerAs: "model"
+            })
+            .when("/details/:pid", {
                 templateUrl: "/views/results/details.view.client.html",
                 controller: "DetailsController",
                 controllerAs: "model"
@@ -31,7 +41,20 @@
                     checkLogin: checkLogin
                 }
             })
-            .when("/results", {
+            .when("/user/:uid", {
+                templateUrl: "/views/user/profile.public.view.client.html",
+                controller: "ProfileViewController",
+                controllerAs: "model",
+                resolve: {
+                    checkLogin: checkLogin
+                }
+            })
+            .when("/results/:location/:query", {
+                templateUrl: "/views/results/results.view.client.html",
+                controller: "ResultsController",
+                controllerAs: "model"
+            })
+            .when("/results/:location/:query/:page", {
                 templateUrl: "/views/results/results.view.client.html",
                 controller: "ResultsController",
                 controllerAs: "model"

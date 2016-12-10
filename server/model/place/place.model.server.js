@@ -30,12 +30,13 @@ module.exports = function () {
      * place object
      * @returns {user}
      */
-    function createPlace(yelpid, uid) {
+    function createPlace(place, uid) {
         var placeObj ={
             user: uid,
-            yelpid: yelpid
+            name: place.name,
+            yelpid: place.id
         };
-        return PlaceModel.findOneAndUpdate({yelpid:yelpid},placeObj,{upsert:true});
+        return PlaceModel.findOneAndUpdate({yelpid:place.id},placeObj,{upsert:true});
     }
 
     /**

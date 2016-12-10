@@ -2,10 +2,14 @@ module.exports = function (app, model) {
 
     app.post('/api/comment', createComment);
     app.put('/api/comment/:cid', updateComment);
+    app.put('/api/comment/reply/:cid', saveReply);
+    app.put('/api/comment/reply/:cid/:rid', updateReply);
     app.get('/api/:pid/comments', findCommentsForPlace);
     app.get('/api/comments', findUserComments);
     app.get('/api/:uid/allcomments', findAllUserComments);
+    app.get('/api/allcomments', getLatestComments);
     app.delete('/api/comment/:cid', deleteComment);
+    app.delete('/api/comment/reply/:cid/:rid', deleteReply);
 
 
     /**
@@ -88,6 +92,16 @@ module.exports = function (app, model) {
                     res.sendStatus(400);
                 });
     }
+    
+    function getLatestComments(req, res) {
+        model.commentModel.findComments()
+            .then(function (comments) {
+                res.send(comments);
+            },
+                function (error) {
+                    res.send(error);
+                });
+    }
 
     /**
      * method to find user by userid.
@@ -127,17 +141,17 @@ module.exports = function (app, model) {
         var comment = req.body.comment;
         var place = req.body.place;
         var yid = place.id;
-        model.placeModel.createPlace(place.id, req.user._id)
-            .then(function (place) {
+        model.placeModel.createPlace(place, req.user._id)
+            .then(function (placeObj) {
                 comment.username = req.user.username;
-                model.commentModel.createComment(comment, req.user._id, yid)
+                model.commentModel.createComment(comment, req.user._id, place)
                     .then(function (comment) {
                         res.send(comment);
                     },function (e) {
-                        res.sendStatus(400).send(e);
+                        res.send(e);
                     })
             },function (e) {
-                res.sendStatus(400).send(e);
+                res.send(e);
             });
     }
 
@@ -152,6 +166,46 @@ module.exports = function (app, model) {
     function deleteComment(req, res) {
         var cid = req.params.cid;
         model.commentModel.deleteComment(cid)
+            .then(
+                function (s) {
+                    res.sendStatus(200);
+                },
+                function (e) {
+                    res.sendStatus(400).send(e);
+                });
+    }
+
+    function saveReply(req, res) {
+        var reply = req.body;
+        var cid = req.params.cid;
+        model.commentModel.saveReply(cid, reply)
+            .then(
+                function (comment) {
+                    res.send(comment);
+                },
+                function (e) {
+                    res.sendStatus(400).send(e);
+                });
+    }
+
+    function updateReply(req, res) {
+        var reply = req.body.reply;
+        var cid = req.params.cid;
+        var rid = req.params.rid;
+        model.commentModel.updateReply(cid,rid, reply)
+            .then(
+                function (comment) {
+                    res.send(comment);
+                },
+                function (e) {
+                    res.sendStatus(400).send(e);
+                });
+    }
+
+    function deleteReply(req, res) {
+        var cid = req.params.cid;
+        var rid = req.params.rid;
+        model.commentModel.deleteReply(cid,rid)
             .then(
                 function (s) {
                     res.sendStatus(200);

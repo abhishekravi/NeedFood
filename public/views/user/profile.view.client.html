@@ -2,20 +2,18 @@
 <div class="container">
     <form>
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Username" ng-model="model.user.username">
-        </div>
-        <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" placeholder="abc@def.com" ng-model="model.user.email">
         </div>
         <div class="form-group">
             <label for="first-name">First Name</label>
-            <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="model.user.firstName">
+            <input type="text" class="form-control" id="first-name" placeholder="First Name"
+                   ng-model="model.user.firstName">
         </div>
         <div class="form-group">
             <label for="last-name">Last Name</label>
-            <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="model.user.lastName">
+            <input type="text" class="form-control" id="last-name" placeholder="Last Name"
+                   ng-model="model.user.lastName">
         </div>
         <div class="form-group">
             <label for="home-town">Home Town</label>
@@ -23,7 +21,8 @@
         </div>
         <div class="form-group">
             <label for="phone-num">Phone Number:</label>
-            <input type="number" class="form-control" id="phone-num" placeholder="xxx-xxx-xxxx" ng-model="model.user.phone">
+            <input type="number" class="form-control" id="phone-num" placeholder="xxx-xxx-xxxx"
+                   ng-model="model.user.phone">
         </div>
         <a ng-click="model.updateUser()" class="btn btn-success  btn-block">Update</a>
         <a ng-click="model.deleteUser()" class="btn btn-warning  btn-block">Unregister</a>
@@ -32,4 +31,21 @@
             {{model.message}}
         </div>
     </form>
+
+    <div ng-repeat="c in model.comments">
+        <div ng-show="model.comment.text != ''">
+            <a ng-click="model.viewPlace(c.yelpid)"><b>{{c.placename}}:</b></a>
+            <div class="pull-right" title="{{c.username}}'s Rating">
+                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                <span ng-repeat="r in model.getRating(c.rating) track by $index">
+                    <span class="{{r}}"></span>
+                </span>
+            </div>
+            <div class="panel panel-danger">
+                <div class="panel-body" id="disp-comment">
+                    {{c.text}}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

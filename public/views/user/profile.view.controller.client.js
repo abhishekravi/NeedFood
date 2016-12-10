@@ -4,7 +4,7 @@
 (function () {
     angular
         .module("MyProject")
-        .controller("ProfileController", ProfileController);
+        .controller("ProfileViewController", ProfileViewController);
 
     /**
      * contains profile controller methods.
@@ -14,18 +14,16 @@
      * user sevice
      * @constructor
      */
-    function ProfileController($routeParams, $location, UserService,CrudService) {
+    function ProfileViewController($location, $routeParams, UserService, CrudService) {
         var vm = this;
-        vm.updateUser = updateUser;
-        vm.deleteUser = deleteUser;
         vm.getRating = getRating;
         vm.viewPlace = viewPlace;
-
         /**
          * to initializr profile page.
          */
         function init() {
-            var ret = UserService.findCurrentUser();
+            var uid = $routeParams['uid'];
+            var ret = UserService.findUserById(uid);
             ret
                 .success(function(user){
                     vm.user = user;
@@ -38,7 +36,6 @@
                     console.log(e);
                 });
         }
-
         init();
 
         function getRating(rating) {
@@ -48,38 +45,10 @@
             }
             return arr;
         }
-
+        
         function viewPlace(yelpid) {
             UserService.back.push('user/' + $routeParams['uid']);
             $location.url('/details/' + $routeParams['uid'] + '/'+ yelpid);
-        }
-
-        /**
-         * method to update user.
-         */
-        function updateUser(){
-            UserService.updateUser(vm.user)
-                .then(function () {
-                    $('#profileMessage').removeClass('hidden');
-                    vm.message = "Updated!"
-                }, function (error) {
-                    vm.message("Update Failed!");
-                    console.log(error);
-                });
-        }
-
-        /**
-         * method to delete the user.
-         */
-        function deleteUser(){
-            UserService.deleteUser(vm.user._id)
-                .success(function(){
-                    $location.url("/login");
-                })
-                .error(function(e){
-                    console.log(e);
-                });
-
         }
     }
 

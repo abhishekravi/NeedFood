@@ -1,7 +1,7 @@
 body {
     padding-top: 50px;
     padding-bottom: 70px;
-    min-width: 527px;
+    min-width: 360px;
 }
 
 .navbar-default {
@@ -36,6 +36,7 @@ body {
     height:180px;
     width: 50%;
     top: 50px;
+    z-index: 1;
 }
 
 [ng-click],
@@ -56,6 +57,11 @@ body {
 
 .name-style{
     color: #cb202d;
+    font-size: 24px;
+}
+
+.pname-style{
+    color: darkblue;
     font-size: 24px;
 }
 
@@ -81,4 +87,14 @@ body {
     display: inline-block;
     position: relative;
     width: 0.9em;
+}
+
+a{
+    color: #cb202d;
+}
+
+#map {
+    width: 100%;
+    height: 300px;
+    background-color: grey;
 }

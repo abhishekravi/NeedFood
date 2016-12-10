@@ -14,11 +14,12 @@
      * user services
      * @constructor
      */
-    function NavBarController($location, $route, UserService) {
+    function NavBarController($location, $route, UserService, $window) {
         var vm = this;
         vm.isLoggedIn = false;
         vm.logout = logout;
-        vm.back = UserService.back;
+        vm.goBack = goBack;
+        vm.back = UserService.back.pop();
         function init() {
             UserService.checkLogin()
                 .then(function (user) {
@@ -40,6 +41,10 @@
                     else
                         $location.url("/");
                 });
+        }
+        
+        function goBack() {
+            $window.history.back();
         }
     }
 
