@@ -38,6 +38,11 @@
             } else
                 vm.query = {'text': $routeParams["query"],'location': $routeParams["location"]};
             search();
+            var input = $('#city')[0];
+            var autocomplete = new google.maps.places.Autocomplete(input,{types: ['(cities)']});
+            google.maps.event.addListener(autocomplete, 'place_changed', function(){
+                var place = autocomplete.getPlace();
+            });
         }
 
         init();
@@ -67,10 +72,14 @@
         }
 
         function querySearch() {
+            if($('#city').val() && $('#city').val() != '')
+                vm.query.location = $('#city').val().split(',')[0];
             $location.url('/results/' + $routeParams["location"] + '/' + vm.query.text);
         }
 
         function querySelected() {
+            if($('#city').val() && $('#city').val() != '')
+                vm.query.location = $('#city').val().split(',')[0];
             $location.url("/results/" + vm.query.location + '/' + vm.selected);
         }
 

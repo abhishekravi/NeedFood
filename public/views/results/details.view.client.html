@@ -13,13 +13,12 @@
             <div class="col-md-6 hidden-xs"><span class="name-style">{{model.place.name}}</span><br>
                 {{model.getAddress(model.place.location.display_address)}}
                 <div>
-                    <div class="row">
+                    <div >
                         <div><b>CUISINES:</b></div>
                         <div>{{model.getCuisine(model.place.categories)}}</div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-2"><b>Open? :</b></div>
-                        <div class="col-sm-3">{{model.place.is_closed ? 'No' : 'Yes'}}</div>
+                    <div >
+                        <div ><b>Open? :</b> {{model.place.is_closed ? 'No' : 'Yes'}}</div>
                     </div>
                     <b><span class="glyphicon glyphicon-earphone"></span></b> {{model.place.display_phone}}<br>
                 </div>

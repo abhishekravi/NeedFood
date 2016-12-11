@@ -26,9 +26,9 @@ module.exports = function (app) {
             oauth_nonce: n()
         };
         var query = req.body;
+        var location='Boston';
         var url = 'http://api.yelp.com/v2/search';
         var user = req.user;
-        var location = query.location;
         if(user){
             if(user.homeTown)
                 location = user.homeTown;
