@@ -93,10 +93,12 @@
         function saveRating(rating) {
             if (vm.user != '0') {
                 setRating(rating);
-                vm.comment.rating = rating;
-                if (vm.comment._id)
+                if (vm.comment && vm.comment._id) {
+                    vm.comment.rating = rating;
                     updateComment();
+                }
                 else {
+                    vm.comment = {text:'',rating:rating};
                     saveComment();
                 }
             }

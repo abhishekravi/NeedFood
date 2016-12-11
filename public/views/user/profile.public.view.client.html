@@ -7,39 +7,41 @@
         <div class="panel-body">
             <div class="form-group">
                 <label>Email address:</label>
-                <input class="form-control" readonly ="readonly" ng-model="model.user.email">
+                <input class="form-control" readonly="readonly" ng-model="model.user.email">
             </div>
             <div class="form-group">
                 <label>First Name:</label>
-                <input class="form-control" readonly ="readonly" ng-model="model.user.firstName">
+                <input class="form-control" readonly="readonly" ng-model="model.user.firstName">
             </div>
             <div class="form-group">
                 <label>Last Name:</label>
-                <input class="form-control" readonly ="readonly" ng-model="model.user.lastName">
+                <input class="form-control" readonly="readonly" ng-model="model.user.lastName">
             </div>
             <div class="form-group">
                 <label>Home Town:</label>
-                <input class="form-control" readonly ="readonly" ng-model="model.user.homeTown">
+                <input class="form-control" readonly="readonly" ng-model="model.user.homeTown">
             </div>
             <div class="form-group">
                 <label>Phone Number:</label>
-                <input class="form-control" readonly ="readonly" ng-model="model.user.phone">
+                <input class="form-control" readonly="readonly" ng-model="model.user.phone">
             </div>
         </div>
     </div>
-
-    <div ng-repeat="c in model.comments">
-        <div ng-show="model.comment.text != ''">
-            <a ng-click="model.viewPlace(c.yelpid)" ><b>{{c.placename}}:</b></a>
-            <div class="pull-right" title="{{c.username}}'s Rating">
-                <i class="fa fa-user-circle" aria-hidden="true"></i>
-                <span ng-repeat="r in model.getRating(c.rating) track by $index">
-                    <span class ="{{r}}"></span>
+    <div>
+        <label>{{model.user.username}}'s Reviews:</label>
+        <div ng-repeat="c in model.comments">
+            <div ng-show="model.comment.text != ''">
+                <a ng-click="model.viewPlace(c.yelpid)"><b>{{c.placename}}:</b></a>
+                <div class="pull-right" title="{{c.username}}'s Rating">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    <span ng-repeat="r in model.getRating(c.rating) track by $index">
+                    <span class="{{r}}"></span>
                 </span>
-            </div>
-            <div class="panel panel-danger">
-                <div class="panel-body" id="disp-comment">
-                    {{c.text}}
+                </div>
+                <div class="panel panel-danger">
+                    <div class="panel-body" id="disp-comment">
+                        {{c.text}}
+                    </div>
                 </div>
             </div>
         </div>
