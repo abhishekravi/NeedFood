@@ -30,7 +30,7 @@
     <div>
         <label>{{model.user.username}}'s Reviews:</label>
         <div ng-repeat="c in model.comments">
-            <div ng-show="model.comment.text != ''">
+            <div ng-show="c.text != ''">
                 <a ng-click="model.viewPlace(c.yelpid)"><b>{{c.placename}}:</b></a>
                 <div class="pull-right" title="{{c.username}}'s Rating">
                     <i class="fa fa-user-circle" aria-hidden="true"></i>

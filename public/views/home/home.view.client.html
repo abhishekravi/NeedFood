@@ -41,7 +41,7 @@
     <div class="panel">
         <div class="panle-body">
             <div ng-repeat="c in model.comments">
-                <div ng-show="model.comment.text != ''">
+                <div ng-show="c.text != ''">
                     <a ng-click="model.viewProfile(c.user)"><b>{{c.username}} </b></a> reviewed
                     <a ng-click="model.viewPlace(c.yelpid)"><b>{{c.placename}}:</b></a>
                     <div class="pull-right" title="{{c.username}}'s Rating">
