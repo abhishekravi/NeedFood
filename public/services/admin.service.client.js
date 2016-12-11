@@ -16,6 +16,11 @@
         return api;
 
 
+        /**
+         * method to get users.
+         * @param query
+         * @returns {*}
+         */
         function getUsers(query) {
             return $http.get('/api/users', query);
         }
