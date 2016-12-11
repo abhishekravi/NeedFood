@@ -21,6 +21,8 @@
         vm.nextPage = nextPage;
         vm.getDetails = getDetails;
         vm.querySelected = querySelected;
+        vm.getAddress = getAddress;
+        vm.getCuisine = getCuisine;
         vm.pageNums = [];
         var numOfPages = 0;
         var itemsPerPage = 10;
@@ -93,6 +95,22 @@
                 + ($routeParams["page"] ? $routeParams["page"] : 1)
                 + '/'
                 + place.id);
+        }
+
+        function getAddress(addr) {
+            var address = '';
+            for(a in addr){
+                address = address + addr[a];
+            }
+            return address;
+        }
+
+        function getCuisine(cs) {
+            var cuisine = '';
+            for(c in cs){
+                cuisine = cuisine + cs[c];
+            }
+            return cuisine;
         }
 
     }

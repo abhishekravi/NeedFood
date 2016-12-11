@@ -2,124 +2,167 @@
 <div ng-include="'views/map/map.view.client.html'" class="container"></div>
 <div class="container">
     <!-- details section-->
-    <div class="container-fluid" ng-show="model.place">
-        <div class="col-md-3"><img ng-src="{{model.place.image_url}}" style="max-width: 300px; max-height: 300px"></div>
-        <div class="col-md-6 "><span class="name-style">{{model.place.name}}</span><br>
-            <span ng-repeat="a in model.place.location.display_address">
-                    {{a}}
-                </span>
-            <div>
-                <div class="row">
-                    <div class="col-sm-2">CUISINES:</div>
-                    <div class="col-sm-10">|<span ng-repeat="c in model.place.categories">
-                    {{c[0]}} |</span></div>
+    <div class="container-fluid panel" ng-show="model.place">
+        <div class="panel-body">
+            <div class="col-md-4 hidden-xs"><img ng-src="{{model.place.image_url}}"
+                                                 style="max-width: 300px; max-height: 300px">
+            </div>
+            <div class="visible-xs row"><img ng-src="{{model.place.image_url}}"
+                                             style="max-width: 300px; max-height: 300px">
+            </div>
+            <div class="col-md-6 hidden-xs"><span class="name-style">{{model.place.name}}</span><br>
+                {{model.getAddress(model.place.location.display_address)}}
+                <div>
+                    <div class="row">
+                        <div><b>CUISINES:</b></div>
+                        <div>{{model.getCuisine(model.place.categories)}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2"><b>Open? :</b></div>
+                        <div class="col-sm-3">{{model.place.is_closed ? 'No' : 'Yes'}}</div>
+                    </div>
+                    <b><span class="glyphicon glyphicon-earphone"></span></b> {{model.place.display_phone}}<br>
                 </div>
-                <div class="row">
-                    <div class="col-sm-2">Open?</div>
-                    <div class="col-sm-3">{{model.place.is_closed ? 'No' : 'Yes'}}</div>
+            </div>
+            <div class="row visible-xs"><span class="name-style">{{model.place.name}}</span><br>
+                {{model.getAddress(model.place.location.display_address)}}
+                <div><b>CUISINES:</b></div>
+                <div>{{model.getCuisine(model.place.categories)}}</div>
+                <div>
+                    <b>Open? :</b>{{model.place.is_closed ? 'No' : 'Yes'}}
                 </div>
-                <b><span class="glyphicon glyphicon-earphone"></span></b> {{model.place.display_phone}}<br>
+                <b><span class="glyphicon glyphicon-earphone"></span></b>
+                {{model.place.display_phone}}<br>
             </div>
-        </div>
-        <!-- rating section-->
-        <div class="col-md-2">
-            <div>
-                <i class="fa fa-yelp" aria-hidden="true"></i>
-                <img ng-src="{{model.place.rating_img_url}}"
-                     title="Yelp rating: {{model.place.rating}}">
+            <!-- rating section-->
+            <div class="col-md-2 hidden-xs">
+                <div>
+                    <i class="fa fa-yelp" aria-hidden="true"></i>
+                    <img ng-src="{{model.place.rating_img_url}}"
+                         title="Yelp rating: {{model.place.rating}}">
+                </div>
+                <div class="pull-left" title="User Rating">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    <span class="{{model.stars[0]}}" ng-click="model.saveRating(1)"></span>
+                    <span class="{{model.stars[1]}}" ng-click="model.saveRating(2)"></span>
+                    <span class="{{model.stars[2]}}" ng-click="model.saveRating(3)"></span>
+                    <span class="{{model.stars[3]}}" ng-click="model.saveRating(4)"></span>
+                    <span class="{{model.stars[4]}}" ng-click="model.saveRating(5)"></span>
+                </div>
             </div>
-            <div class="pull-left" title="User Rating">
-                <i class="fa fa-user-circle" aria-hidden="true"></i>
-                <span class="{{model.stars[0]}}" ng-click="model.saveRating(1)"></span>
-                <span class="{{model.stars[1]}}" ng-click="model.saveRating(2)"></span>
-                <span class="{{model.stars[2]}}" ng-click="model.saveRating(3)"></span>
-                <span class="{{model.stars[3]}}" ng-click="model.saveRating(4)"></span>
-                <span class="{{model.stars[4]}}" ng-click="model.saveRating(5)"></span>
+            <div class="row visible-xs">
+                <div>
+                    <i class="fa fa-yelp" aria-hidden="true"></i>
+                    <img ng-src="{{model.place.rating_img_url}}"
+                         title="Yelp rating: {{model.place.rating}}">
+                </div>
+                <div class="pull-left" title="User Rating">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    <span class="{{model.stars[0]}}" ng-click="model.saveRating(1)"></span>
+                    <span class="{{model.stars[1]}}" ng-click="model.saveRating(2)"></span>
+                    <span class="{{model.stars[2]}}" ng-click="model.saveRating(3)"></span>
+                    <span class="{{model.stars[3]}}" ng-click="model.saveRating(4)"></span>
+                    <span class="{{model.stars[4]}}" ng-click="model.saveRating(5)"></span>
+                </div>
             </div>
-        </div>
-        <!-- comment section-->
-        <div class="col-md-6">
-            <b>Comments:</b><br>
-            <div ng-show="model.comment == undefined || model.comment._id == undefined ||  model.comment.text == ''">
+            <!-- comment section-->
+            <div class="col-md-6">
+                <b>Comments:</b><br>
+                <div ng-show="model.comment == undefined || model.comment._id == undefined ||  model.comment.text == ''">
             <textarea placeholder="enter your comments..." ng-model="model.comment.text" rows="3"
                       ng-disabled="model.notLoggedIn"
                       class="form-control"></textarea>
-            </div>
-            <div class="panel panel-danger" id="comment-display"
-                 ng-show="model.comment != undefined && model.comment._id != undefined &&  model.comment.text != ''">
-                <div class="panel-body" id="disp-comment">
-                    {{model.comment.text}}
                 </div>
-                <textarea id="comment-edit" placeholder="enter your comments..." ng-model="model.comment.text" rows="3"
-                          class="form-control hidden"></textarea>
-            </div>
+                <div class="panel panel-danger" id="comment-display"
+                     ng-show="model.comment != undefined && model.comment._id != undefined &&  model.comment.text != ''">
+                    <div class="panel-body" id="disp-comment">
+                        {{model.comment.text}}
+                    </div>
+                    <textarea id="comment-edit" placeholder="enter your comments..."
+                              ng-model="model.comment.text"
+                              rows="3"
+                              class="form-control hidden"></textarea>
+                </div>
 
-            <div ng-show="(model.comment == undefined || model.comment._id == undefined ||  model.comment.text == '') && model.user !='0'">
-                <a id="comment-btn" ng-click="model.saveComment()" class="glyphicon glyphicon-floppy-disk"
-                   ng-disabled="model.notLoggedIn" title="Login to comment">Comment
-                </a>
-            </div>
-            <div ng-show="model.comment._id != undefined && model.comment._id != '' &&  model.comment.text != ''">
-                <a id="edit-comment-btn" ng-click="model.editComment()" class="glyphicon glyphicon glyphicon-pencil"
-                   ng-disabled="model.notLoggedIn" title="edit comment">edit
-                </a>
-                <a id="updt-comment-btn" ng-click="model.updateComment()" class="glyphicon glyphicon-floppy-disk hidden"
-                   ng-disabled="model.notLoggedIn" title="save comment">Save
-                </a>
-                <a id="del-comment-btn" ng-click="model.deleteComment()" class="glyphicon glyphicon-remove"
-                   ng-disabled="model.notLoggedIn" title="delete comment">delete
-                </a>
+                <div ng-show="(model.comment == undefined || model.comment._id == undefined ||  model.comment.text == '') && model.user !='0'">
+                    <a id="comment-btn" ng-click="model.saveComment()"
+                       class="glyphicon glyphicon-floppy-disk"
+                       ng-disabled="model.notLoggedIn" title="Login to comment">Comment
+                    </a>
+                </div>
+                <div ng-show="model.comment._id != undefined && model.comment._id != '' &&  model.comment.text != ''">
+                    <a id="edit-comment-btn" ng-click="model.editComment()"
+                       class="glyphicon glyphicon glyphicon-pencil"
+                       ng-disabled="model.notLoggedIn" title="edit comment">edit
+                    </a>
+                    <a id="updt-comment-btn" ng-click="model.updateComment()"
+                       class="glyphicon glyphicon-floppy-disk hidden"
+                       ng-disabled="model.notLoggedIn" title="save comment">Save
+                    </a>
+                    <a id="del-comment-btn" ng-click="model.deleteComment()"
+                       class="glyphicon glyphicon-remove"
+                       ng-disabled="model.notLoggedIn" title="delete comment">delete
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- all comments section-->
-    <div class="container" ng-show="model.comments.length > 0">
-        What other users say:
-        <div ng-repeat="c in model.comments">
-            <div class="panel panel-danger" ng-show="c.text != ''">
-                <div class="panel-heading">
-                    <span class="glyphicon glyphicon-user"></span><a ng-click="model.viewProfile(c.user)">
-                    <b> {{c.username}} says:</b></a>
-                </div>
-                <div class="panel-body">
-                    {{c.text}}<br>
-                    <a id="opn-reply{{c._id}}" ng-click="model.openReply(c._id)" class="glyphicon glyphicon-pencil"
-                       ng-show="model.notLoggedIn == false" title="save comment">Reply
-                    </a>
-                    <input id="reply-inp{{c._id}}" type="text" class="form-control reply hidden" ng-model="model.reply">
-                    <span class=""></span>
-                    <a id="reply-comment-btn{{c._id}}" ng-click="model.saveReply(c._id)"
-                       class="glyphicon glyphicon-floppy-disk hidden"
-                       ng-show="model.notLoggedIn == false" title="save comment">Reply
-                    </a>
-                    <div ng-repeat="r in c.replies">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <span class="glyphicon glyphicon-user"></span><a ng-click="model.viewProfile(r.user)">
-                                <b> {{r.username}} says:</b></a>
-                            </div>
-                            <div class="panel-body">
-                                <span id="reply-text{{r._id}}">{{r.text}}</span><br>
-                                <div ng-show="r.user == model.user._id">
-                                    <input id="reply-upd{{r._id}}" type="text" class="form-control reply hidden"
-                                           ng-model="r.text">
-                                    <a id="reply-edit{{r._id}}" ng-click="model.editReply(r._id)"
-                                       class="glyphicon glyphicon-pencil"
-                                       ng-disabled="model.notLoggedIn" title="save comment">edit
-                                    </a>
-                                    <a id="reply-save{{r._id}}" ng-click="model.updateReply(c._id,r._id,r)"
-                                       class="glyphicon glyphicon-floppy-disk hidden"
-                                       ng-disabled="model.notLoggedIn" title="save comment">save
-                                    </a>
-                                    <a id="reply-del" ng-click="model.deleteReply(c._id,r._id)"
-                                       class="glyphicon glyphicon-remove"
-                                       ng-disabled="model.notLoggedIn" title="delete comment">delete
-                                    </a>
+    <div class="container panel" ng-show="model.comments.length > 0">
+        <div class="panel-body">
+            What other users say:
+            <div ng-repeat="c in model.comments">
+                <div class="panel panel-danger" ng-show="c.text != ''">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-user"></span><a
+                            ng-click="model.viewProfile(c.user)">
+                        <b> {{c.username}} says:</b></a>
+                    </div>
+                    <div class="panel-body">
+                        {{c.text}}<br>
+                        <a id="opn-reply{{c._id}}" ng-click="model.openReply(c._id)"
+                           class="glyphicon glyphicon-pencil"
+                           ng-show="model.notLoggedIn == false" title="save comment">Reply
+                        </a>
+                        <input id="reply-inp{{c._id}}" type="text" class="form-control reply hidden"
+                               ng-model="model.reply">
+                        <span class=""></span>
+                        <a id="reply-comment-btn{{c._id}}" ng-click="model.saveReply(c._id)"
+                           class="glyphicon glyphicon-floppy-disk hidden"
+                           ng-show="model.notLoggedIn == false" title="save comment">Reply
+                        </a>
+                        <div ng-repeat="r in c.replies">
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">
+                                    <span class="glyphicon glyphicon-user"></span><a
+                                        ng-click="model.viewProfile(r.user)">
+                                    <b> {{r.username}} says:</b></a>
+                                </div>
+                                <div class="panel-body">
+                                    <span id="reply-text{{r._id}}">{{r.text}}</span><br>
+                                    <div ng-show="r.user == model.user._id">
+                                        <input id="reply-upd{{r._id}}" type="text"
+                                               class="form-control reply hidden"
+                                               ng-model="r.text">
+                                        <a id="reply-edit{{r._id}}" ng-click="model.editReply(r._id)"
+                                           class="glyphicon glyphicon-pencil"
+                                           ng-disabled="model.notLoggedIn" title="save comment">edit
+                                        </a>
+                                        <a id="reply-save{{r._id}}"
+                                           ng-click="model.updateReply(c._id,r._id,r)"
+                                           class="glyphicon glyphicon-floppy-disk hidden"
+                                           ng-disabled="model.notLoggedIn" title="save comment">save
+                                        </a>
+                                        <a id="reply-del" ng-click="model.deleteReply(c._id,r._id)"
+                                           class="glyphicon glyphicon-remove"
+                                           ng-disabled="model.notLoggedIn" title="delete comment">delete
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>

@@ -29,6 +29,8 @@
         vm.updateReply = updateReply;
         vm.deleteReply = deleteReply;
         vm.editComment = editComment;
+        vm.getAddress = getAddress;
+        vm.getCuisine = getCuisine;
         vm.stars = ['notfilled', 'notfilled', 'notfilled', 'notfilled', 'notfilled'];
 
 
@@ -247,6 +249,22 @@
                 position: {lat: lat, lng: long},
                 map: vm.map
             });
+        }
+
+        function getAddress(addr) {
+            var address = '';
+            for(a in addr){
+                address = address + addr[a];
+            }
+            return address;
+        }
+
+        function getCuisine(cs) {
+            var cuisine = '';
+            for(c in cs){
+                cuisine = cuisine + cs[c];
+            }
+            return cuisine;
         }
 
     }

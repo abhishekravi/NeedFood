@@ -23,6 +23,22 @@ body {
     color: #ffbbbc;
 }
 
+@media (max-width: 768px) {
+
+    ul.navbar-nav li.inline {
+        float: left; // make .inline items to float on mobile
+    }
+    ul.navbar-nav li.last-inline + li {
+        clear: both; // avoid next item to float
+    }
+    ul.navbar-nav li.inline a { // fix broken padding
+    padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+}
+
+
 .div-bg{
     background-image: url('../images/projbg.jpg') ;
     min-width:320px;
@@ -34,8 +50,14 @@ body {
 .big-search-box {
     position: relative;
     height:180px;
-    width: 50%;
-    top: 50px;
+    padding-top: 50px;
+    z-index: 1;
+}
+
+.res-search-box{
+    position: relative;
+    height:125px;
+    padding-top: 50px;
     z-index: 1;
 }
 
@@ -51,8 +73,16 @@ body {
     vertical-align:middle;
 }
 
+.res-logo{
+    vertical-align:middle;
+    margin-top: -30px;
+    position: relative;
+    padding-bottom: 100px;
+}
+
+
 .logo-img{
-    height: 100px;
+    height: 90px;
 }
 
 .name-style{
@@ -91,6 +121,10 @@ body {
 
 a{
     color: #cb202d;
+}
+
+a:hover {
+    cursor:pointer;
 }
 
 #map {

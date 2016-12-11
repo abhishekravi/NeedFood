@@ -39,10 +39,7 @@
                                 $('#myLogin').modal('hide');
                                 $('body').removeClass('modal-open');
                                 $('.modal-backdrop').remove();
-                                if($location.path() == "/" || $location.path() == "/home")
-                                    $route.reload();
-                                else
-                                    $location.url("/");
+                                $route.reload();
                             } else {
                                 $('#loginAlert').removeClass('hidden');
                                 vm.alert = "Unable to login. Invalid username/password";

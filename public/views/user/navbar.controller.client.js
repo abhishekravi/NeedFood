@@ -19,6 +19,7 @@
         vm.isLoggedIn = false;
         vm.logout = logout;
         vm.goBack = goBack;
+        vm.isNotHome = isNotHome;
         vm.back = UserService.back.pop();
         function init() {
             UserService.checkLogin()
@@ -45,6 +46,10 @@
         
         function goBack() {
             $window.history.back();
+        }
+        
+        function isNotHome() {
+            return $location.path() != '/';
         }
     }
 

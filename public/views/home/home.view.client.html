@@ -1,14 +1,16 @@
 <div ng-include="'views/user/navBar.view.client.html'"></div>
-<div class="div-bg container">
-    <div class="logo">
-        <img src="../../images/logo.jpg" class="logo-img">
-    </div>
+<div class="container">
+    <div class="div-bg container">
+        <div class="logo">
+            <a href="#/"> <img src="../../images/logo.jpg" class="logo-img" title="Home"></a>
+        </div>
 
-    <div class="container big-search-box">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Enter search query here..." ng-model="model.query.text"
-            >
-            <span class="input-group-btn">
+        <div class="big-search-box">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter search query here..."
+                       ng-model="model.query.text"
+                >
+                <span class="input-group-btn">
             <button class="btn btn-default" type="button" ng-click="model.search()">
                 <span class="glyphicon glyphicon-search"></span>
             </button>
@@ -16,41 +18,46 @@
                 <span class="glyphicon glyphicon-cog"></span>
             </button>
         </span>
-        </div>
-        <div id="filter-panel" class="collapse well well-lg">
-            <label for="city">City</label>
-            <input type="text" id="city" class="form-control"
-                   placeholder="Enter city here..." ng-model="model.query.location">
-            <label for="type">Common queries</label>
-            <select id="type" ng-model="model.selected" class="form-control" ng-change="model.querySelected()">
-                <option value="">Select a Query</option>
-                <option value="Chinese">Chinese</option>
-                <option value="Indian">Indian</option>
-                <option value="French">French</option>
-                <option value="Italian">Italian</option>
-                <option value="Pizza">Pizza</option>
-                <option value="Middle Eastern">Middle Eastern</option>
-                <option value="Japaneses">Japaneses</option>
-                <option value="Vegan">Vegan</option>
-            </select>
+            </div>
+            <div id="filter-panel" class="collapse well well-lg">
+                <label for="city">City</label>
+                <input type="text" id="city" class="form-control"
+                       placeholder="Enter city here..." ng-model="model.query.location">
+                <label for="type">Common queries</label>
+                <select id="type" ng-model="model.selected" class="form-control" ng-change="model.querySelected()">
+                    <option value="">Select a Query</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Indian">Indian</option>
+                    <option value="French">French</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Pizza">Pizza</option>
+                    <option value="Middle Eastern">Middle Eastern</option>
+                    <option value="Japaneses">Japaneses</option>
+                    <option value="Vegan">Vegan</option>
+                </select>
+            </div>
         </div>
     </div>
-
-    <div ng-repeat="c in model.comments">
-        <div ng-show="model.comment.text != ''">
-            <a ng-click="model.viewProfile(c.user)"><b>{{c.username}} </b></a> reviewed
-            <a ng-click="model.viewPlace(c.yelpid)"><b>{{c.placename}}:</b></a>
-            <div class="pull-right" title="{{c.username}}'s Rating">
-                <i class="fa fa-user-circle" aria-hidden="true"></i>
-                <span ng-repeat="r in model.getRating(c.rating) track by $index">
+    <div class="panel">
+        <div class="panle-body">
+            <div ng-repeat="c in model.comments">
+                <div ng-show="model.comment.text != ''">
+                    <a ng-click="model.viewProfile(c.user)"><b>{{c.username}} </b></a> reviewed
+                    <a ng-click="model.viewPlace(c.yelpid)"><b>{{c.placename}}:</b></a>
+                    <div class="pull-right" title="{{c.username}}'s Rating">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        <span ng-repeat="r in model.getRating(c.rating) track by $index">
                     <span class="{{r}}"></span>
                 </span>
-            </div>
-            <div class="panel panel-danger">
-                <div class="panel-body" id="disp-comment">
-                    {{c.text}}
+                    </div>
+                    <div class="panel panel-danger">
+                        <div class="panel-body" id="disp-comment">
+                            {{c.text}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
