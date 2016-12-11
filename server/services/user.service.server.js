@@ -49,14 +49,14 @@ module.exports = function (app, model) {
     app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '/project/#/home',
-            failureRedirect: '/project/#/login'
+            successRedirect: '/#/',
+            failureRedirect: '/#/login'
         }));
     app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect: '/project/#/home',
-            failureRedirect: '/project/#/login'
+            successRedirect: '/#/',
+            failureRedirect: '/#/login'
         }));
 
 
