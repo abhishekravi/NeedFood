@@ -119,6 +119,6 @@ module.exports = function () {
      * @returns {Promise}
      */
     function deleteRatingsForUser(uid) {
-        return CommentModel.remove({user: uid});
+        return RatingModel.remove({user: uid});
     }
 };
