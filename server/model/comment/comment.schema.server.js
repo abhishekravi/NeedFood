@@ -1,4 +1,4 @@
-//place schema
+//comment schema
 module.exports = function () {
     var mongoose = require("mongoose");
 
@@ -14,7 +14,6 @@ module.exports = function () {
             username: {type: String},
             dateCreated: {type: Date, default: Date.now()}
         }],
-        rating: {type: Number},
         dateCreated: {type: Date, default: Date.now()}
     }, {collection: "comment"});
     return CommentSchema;

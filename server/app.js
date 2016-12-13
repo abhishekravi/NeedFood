@@ -12,4 +12,5 @@ module.exports = function(app) {
     require("./services/user.service.server.js")(app, model);
     require("./services/search.service.server.js")(app, model);
     require("./services/crud.service.server.js")(app, model);
+    require("./services/rating.service.server.js")(app, model);
 };

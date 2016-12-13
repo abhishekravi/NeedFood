@@ -13,11 +13,20 @@
         };
         return api;
 
-
+        /**
+         * to perform yelp query search
+         * @param query
+         * @returns {*}
+         */
         function searchQuery(query) {
             return $http.post('/api/search', query);
         }
 
+        /**
+         * to perform yelp business search
+         * @param query
+         * @returns {*}
+         */
         function searchBusiness(query) {
             return $http.post('/api/search/place', {text: query});
         }

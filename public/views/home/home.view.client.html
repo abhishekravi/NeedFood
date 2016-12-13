@@ -46,7 +46,7 @@
                     <a ng-click="model.viewPlace(c.yelpid)"><b>{{c.placename}}:</b></a>
                     <div class="pull-right" title="{{c.username}}'s Rating">
                         <i class="fa fa-user-circle" aria-hidden="true"></i>
-                        <span ng-repeat="r in model.getRating(c.rating) track by $index">
+                        <span ng-repeat="r in model.setRating(model.ratings[c.user + c.yelpid]) track by $index">
                     <span class="{{r}}"></span>
                 </span>
                     </div>

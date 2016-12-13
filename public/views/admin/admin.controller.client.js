@@ -24,6 +24,9 @@
         }
         init();
 
+        /**
+         * get all users
+         */
         function getUsers(){
             AdminService.getUsers()
                 .then(function (users) {
@@ -31,6 +34,11 @@
                 });
 
         }
+
+        /**
+         * delete user.
+         * @param uid
+         */
         function deleteUser(uid) {
             AdminService.deleteUser(uid)
                 .then(function () {
@@ -41,14 +49,23 @@
             });
         }
 
+        /**
+         * delete comment.
+         * @param cid
+         * @param comment
+         * @param uid
+         */
         function deleteComment(cid,comment, uid) {
-            comment.text = '';
-            AdminService.clearComment(cid, comment)
+            AdminService.deleteComment(cid)
                 .then(function () {
                     getComments(uid);
                 });
         }
 
+        /**
+         * get user comments.
+         * @param uid
+         */
         function getComments(uid) {
             AdminService.getComments(uid)
                 .then(function (comments) {

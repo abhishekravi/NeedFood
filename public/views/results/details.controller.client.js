@@ -14,7 +14,7 @@
      * serach service
      * @constructor
      */
-    function DetailsController($location, $routeParams, SearchService, UserService, CrudService) {
+    function DetailsController($location, $routeParams, SearchService, UserService, CrudService, RatingService) {
 
         var vm = this;
         vm.notLoggedIn = false;
@@ -34,6 +34,9 @@
         vm.stars = ['notfilled', 'notfilled', 'notfilled', 'notfilled', 'notfilled'];
 
 
+        /**
+         * to be called on page load.
+         */
         function init() {
             vm.query = $routeParams['query'];
             vm.page = $routeParams['page'];
@@ -55,6 +58,13 @@
                             vm.place = place.data;
                             vm.place.image_url = vm.place.image_url.replace('ms.jpg', 'o.jpg');
                             //get all comments for this place
+                            if (user.data != '0') {
+                                RatingService.getRating(vm.user._id, vm.place.id)
+                                    .then(function (rating) {
+                                        vm.rating = rating.data;
+                                        setRating(vm.rating.value);
+                                    });
+                            }
                             CrudService.getComments(vm.pid)
                                 .then(function (comments) {
                                     vm.comments = comments.data;
@@ -64,8 +74,6 @@
                                             for (c in vm.comments) {
                                                 if (vm.comments[c].user == user.data._id) {
                                                     vm.comment = vm.comments[c];
-                                                    if (vm.comment.rating)
-                                                        setRating(vm.comment.rating);
                                                 }
                                             }
                                         }
@@ -79,10 +87,18 @@
 
         init();
 
+        /**
+         * this will perform the yelp call.
+         * @returns {*}
+         */
         function getDetails() {
             return SearchService.searchBusiness(vm.pid);
         }
 
+        /**
+         * set rating in ui.
+         * @param rating
+         */
         function setRating(rating) {
             vm.stars = ['notfilled', 'notfilled', 'notfilled', 'notfilled', 'notfilled'];
             for (var i = 0; i < rating; i++) {
@@ -90,23 +106,52 @@
             }
         }
 
+        /**
+         * save or update ratings.
+         * @param rating
+         */
         function saveRating(rating) {
             if (vm.user != '0') {
                 setRating(rating);
-                if (vm.comment && vm.comment._id) {
-                    vm.comment.rating = rating;
-                    updateComment();
+                if (vm.rating) {
+                    vm.rating.value = rating;
+                    updateRating();
                 }
                 else {
-                    vm.comment = {text:'',rating:rating};
-                    saveComment();
+                    vm.rating = {value:rating};
+                    createRating();
                 }
             }
         }
 
+        /**
+         * creating new rating.
+         */
+        function createRating() {
+            RatingService.createRating(vm.user._id, vm.place.id, vm.rating)
+                .then(function (rating) {
+                    vm.rating = rating.data;
+                },function (e) {
+                    console.log('rating not saved ' + e.data);
+                });
+        }
+
+        /**
+         * update rating
+         */
+        function updateRating() {
+            RatingService.updateRating(vm.rating._id, vm.rating)
+                .then(function (rating) {
+                    vm.rating = rating.data;
+                },function (e) {
+                    console.log('rating not updated ' + e.data);
+                });
+        }
+
+        /**
+         * save comment.
+         */
         function saveComment() {
-            if (!vm.comment.rating)
-                vm.comment.rating = 0;
             CrudService.createComment(vm.place, vm.comment)
                 .then(function (comment) {
                     vm.comment = comment.data;
@@ -115,12 +160,14 @@
                             console.log(comments.data);
                             vm.comments = comments.data;
                         });
-                    console.log('comment saved');
                 }, function (e) {
                     console.log('comment not saved, cause:' + e.data);
                 });
         }
 
+        /**
+         * update comment.
+         */
         function updateComment() {
             $('#edit-comment-btn').removeClass('hidden');
             $('#updt-comment-btn').addClass('hidden');
@@ -128,18 +175,19 @@
             $('#disp-comment').removeClass('hidden');
             CrudService.updateComment(vm.comment._id, vm.comment)
                 .then(function (comment) {
-                    setRating(vm.comment.rating);
-                    console.log(comment);
                     CrudService.getComments(vm.place.id)
                         .then(function (comments) {
                             vm.comments = comments.data;
                         });
-                    console.log('comment updated');
                 }, function (e) {
                     console.log('comment not updated, cause:' + e.data);
                 });
         }
 
+        /**
+         * save reply.
+         * @param cid
+         */
         function saveReply(cid) {
             $('#opn-reply' + cid).removeClass('hidden');
             $('#reply-inp' + cid).addClass('hidden');
@@ -151,16 +199,20 @@
             };
             CrudService.saveReply(cid,reply)
                 .then(function () {
-                    console.log('reply saved');
                     CrudService.getComments(vm.place.id)
                         .then(function (comments) {
                             vm.comments = comments.data;
                         });
+                    vm.reply = '';
                 },function (e) {
                     console.log('reply not saved:' + e.data);
                 });
         }
 
+        /**
+         * edit reply, to enable input.
+         * @param rid
+         */
         function editReply(rid) {
             $('#reply-edit' + rid).addClass('hidden');
             $('#reply-text' + rid).addClass('hidden');
@@ -168,6 +220,12 @@
             $('#reply-upd' + rid).removeClass('hidden');
         }
 
+        /**
+         * updating the reply.
+         * @param cid
+         * @param rid
+         * @param reply
+         */
         function updateReply(cid, rid, reply) {
             $('#reply-edit' + rid).removeClass('hidden');
             $('#reply-text' + rid).removeClass('hidden');
@@ -175,7 +233,6 @@
             $('#reply-upd' + rid).addClass('hidden');
             CrudService.updateReply(cid,rid,reply)
                 .then(function () {
-                    console.log('reply updated');
                     CrudService.getComments(vm.place.id)
                         .then(function (comments) {
                             vm.comments = comments.data;
@@ -184,14 +241,19 @@
                     console.log('reply not updated:' + e.data);
                 });
         }
-        
+
+        /**
+         * deleting a reply
+         * @param cid
+         * @param rid
+         */
         function deleteReply(cid, rid) {
             CrudService.deleteReply(cid,rid)
                 .then(function () {
-                    console.log('reply deleted');
                     CrudService.getComments(vm.place.id)
                         .then(function (comments) {
                             vm.comments = comments.data;
+                            //$route.reload();
                         });
                 },function (e) {
                     console.log('reply not deleted:' + e.data);
@@ -199,11 +261,27 @@
             
         }
 
+        /**
+         * delete comment.
+         */
         function deleteComment() {
             vm.comment.text = '';
-            updateComment();
+            CrudService.deleteComment(vm.comment._id)
+                .then(function () {
+                    CrudService.getComments(vm.place.id)
+                        .then(function (comments) {
+                            vm.comments = comments.data;
+                        });
+                    vm.comment = '';
+                },function (e) {
+                    console.log('comment not deleted' + e.data);
+                });
         }
 
+        /**
+         * to view user profile.
+         * @param uid
+         */
         function viewProfile(uid) {
             if (vm.user != '0') {
                 UserService.back.push('details/' + vm.location + '/' + vm.query + '/' + vm.page + '/' + vm.pid);
@@ -211,6 +289,9 @@
             }
         }
 
+        /**
+         * to enable comment edit.
+         */
         function editComment() {
             $('#edit-comment-btn').addClass('hidden');
             $('#updt-comment-btn').removeClass('hidden');
@@ -218,17 +299,24 @@
             $('#disp-comment').addClass('hidden');
         }
 
+        /**
+         * to open reply box.
+         * @param id
+         */
         function openReply(id) {
             $('#opn-reply' + id).addClass('hidden');
             $('#reply-inp' + id).removeClass('hidden');
             $('#reply-comment-btn' + id).removeClass('hidden');
         }
 
+        /**
+         * initialize google map
+         * @param location
+         */
         function initMap(location) {
             var lat = location.coordinate.latitude;
             var long = location.coordinate.longitude;
             var location = UserService.location;
-            console.log('init map called');
             var mapCanvas = $('#map')[0];
             var mapOptions = {
                 center: new google.maps.LatLng(lat, long),
@@ -253,6 +341,11 @@
             });
         }
 
+        /**
+         * get address from yelp response
+         * @param addr
+         * @returns {string}
+         */
         function getAddress(addr) {
             var address = '';
             for(a in addr){
@@ -261,6 +354,11 @@
             return address;
         }
 
+        /**
+         * get cuisine from yelp response
+         * @param cs
+         * @returns {string}
+         */
         function getCuisine(cs) {
             var cuisine = '';
             for(c in cs){

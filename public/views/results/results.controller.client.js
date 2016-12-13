@@ -28,6 +28,9 @@
         var itemsPerPage = 10;
         var page = $routeParams["page"];
 
+        /**
+         * perform on page load.
+         */
         function init() {
             if (page) {
                 vm.query = {
@@ -71,12 +74,18 @@
                 });
         }
 
+        /**
+         * on search button click
+         */
         function querySearch() {
             if($('#city').val() && $('#city').val() != '')
                 vm.query.location = $('#city').val().split(',')[0];
             $location.url('/results/' + $routeParams["location"] + '/' + vm.query.text);
         }
 
+        /**
+         * on quick query select.
+         */
         function querySelected() {
             if($('#city').val() && $('#city').val() != '')
                 vm.query.location = $('#city').val().split(',')[0];
@@ -94,6 +103,10 @@
             $location.url('/results/' + $routeParams["location"] + '/' + vm.query.text + '/' + offset);
         }
 
+        /**
+         * to go to get details page.
+         * @param place
+         */
         function getDetails(place) {
             UserService.back.push('results/' + vm.query.location + '/' + vm.query.text + '/' + ($routeParams["page"] ? $routeParams["page"] : 1));
             $location.url('/details/'
@@ -106,6 +119,11 @@
                 + place.id);
         }
 
+        /**
+         * get address from yelp response
+         * @param addr
+         * @returns {string}
+         */
         function getAddress(addr) {
             var address = '';
             for(a in addr){
@@ -114,6 +132,11 @@
             return address;
         }
 
+        /**
+         * get cuisine from yelp response
+         * @param cs
+         * @returns {string}
+         */
         function getCuisine(cs) {
             var cuisine = '';
             for(c in cs){

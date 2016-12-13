@@ -62,6 +62,13 @@
             .otherwise({redirectTo: '/'})
     }
 
+    /**
+     * method to check if the user is logged in.
+     * @param $q
+     * @param UserService
+     * @param $location
+     * @returns {null|*}
+     */
     function checkLogin($q, UserService, $location) {
         var deferred = $q.defer();
         UserService.checkLogin()
@@ -75,7 +82,14 @@
             });
         return deferred.promise;
     }
-    
+
+    /**
+     * method to check if the user is Admin.
+     * @param $q
+     * @param UserService
+     * @param $location
+     * @returns {null|*}
+     */
     function checkAdmin($q, UserService, $location) {
         var deferred = $q.defer();
         UserService.checkAdmin()

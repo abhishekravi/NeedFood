@@ -29,19 +29,37 @@
         };
         return api;
 
+        /**
+         * to login
+         * @param username
+         * @param password
+         * @returns {*}
+         */
         function login(username, password){
             var user = {username:username, password: password};
             return $http.post('/api/login',user);
         }
 
+        /**
+         * to check login
+         * @returns {*}
+         */
         function checkLogin(){
             return $http.post('/api/checkLogin');
         }
 
+        /**
+         * to check if admin
+         * @returns {*}
+         */
         function checkAdmin(){
             return $http.post('/api/checkAdmin');
         }
-        
+
+        /**
+         * to logout
+         * @returns {*}
+         */
         function logout() {
             return $http.post('/api/logout');
         }
@@ -68,6 +86,10 @@
             return $http.get(url);
         }
 
+        /**
+         * to find current user
+         * @returns {*}
+         */
         function findCurrentUser(){
             var url = '/api/user';
             return $http.get(url);

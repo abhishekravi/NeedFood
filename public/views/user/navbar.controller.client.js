@@ -21,6 +21,10 @@
         vm.goBack = goBack;
         vm.isNotHome = isNotHome;
         vm.back = UserService.back.pop();
+
+        /**
+         * to initialize navbar.
+         */
         function init() {
             UserService.checkLogin()
                 .then(function (user) {
@@ -34,6 +38,9 @@
         }
         init();
 
+        /**
+         * to logout
+         */
         function logout(){
             UserService.logout()
                 .then(function () {
@@ -43,11 +50,18 @@
                         $location.url("/");
                 });
         }
-        
+
+        /**
+         * to go back
+         */
         function goBack() {
             $window.history.back();
         }
-        
+
+        /**
+         * check in in home page
+         * @returns {boolean}
+         */
         function isNotHome() {
             return $location.path() != '/';
         }

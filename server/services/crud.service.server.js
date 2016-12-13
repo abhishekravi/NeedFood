@@ -13,7 +13,7 @@ module.exports = function (app, model) {
 
 
     /**
-     * method to find user.
+     * method to comments for a place.
      * @param req
      * request
      * @param res
@@ -53,7 +53,7 @@ module.exports = function (app, model) {
     }
 
     /**
-     * method to find user by username.
+     * method to find comment by user.
      * @param req
      * request
      * @param res
@@ -73,7 +73,7 @@ module.exports = function (app, model) {
     }
 
     /**
-     * method to find user by username.
+     * method to find find comment by user.
      * @param req
      * request
      * @param res
@@ -92,7 +92,12 @@ module.exports = function (app, model) {
                     res.sendStatus(400);
                 });
     }
-    
+
+    /**
+     * method to fetch all latest comments.
+     * @param req
+     * @param res
+     */
     function getLatestComments(req, res) {
         model.commentModel.findComments()
             .then(function (comments) {
@@ -104,32 +109,7 @@ module.exports = function (app, model) {
     }
 
     /**
-     * method to find user by userid.
-     * @param req
-     * request
-     * @param res
-     * response
-     * @returns {*}
-     * user object
-     */
-    function findUserById(req, res) {
-        var id = req.params.uid;
-        model.userModel.findUserById(id)
-            .then(
-                function (user) {
-                    if (user) {
-                        res.send(user);
-                    } else {
-                        res.send('0');
-                    }
-                },
-                function (error) {
-                    res.sendStatus(400).send(error);
-                });
-    }
-
-    /**
-     * creates new user.
+     * creates new comment.
      * @param req
      * request
      * @param res
@@ -157,7 +137,7 @@ module.exports = function (app, model) {
 
 
     /**
-     * method to delete user.
+     * method to delete comment.
      * @param req
      * request
      * @param res
@@ -175,6 +155,11 @@ module.exports = function (app, model) {
                 });
     }
 
+    /**
+     * method to save reply
+     * @param req
+     * @param res
+     */
     function saveReply(req, res) {
         var reply = req.body;
         var cid = req.params.cid;
@@ -188,6 +173,11 @@ module.exports = function (app, model) {
                 });
     }
 
+    /**
+     * mehtod to update reply
+     * @param req
+     * @param res
+     */
     function updateReply(req, res) {
         var reply = req.body.reply;
         var cid = req.params.cid;
@@ -202,6 +192,11 @@ module.exports = function (app, model) {
                 });
     }
 
+    /**
+     * method to delete reply
+     * @param req
+     * @param res
+     */
     function deleteReply(req, res) {
         var cid = req.params.cid;
         var rid = req.params.rid;

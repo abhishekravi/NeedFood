@@ -140,7 +140,10 @@ module.exports = function () {
                     .then(function () {
                         model.commentModel.deleteCommentForUser(uid)
                             .then(function (c) {
-                                user.remove();
+                                model.ratingModel.deleteRatingsForUser(uid)
+                                    .then(function () {
+                                        user.remove();
+                                    });
                             });
                     });
             }

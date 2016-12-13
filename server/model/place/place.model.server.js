@@ -3,7 +3,7 @@ module.exports = function () {
     var mongoose = require("mongoose");
     var PlaceSchema = require('./place.schema.server')();
     var PlaceModel = mongoose.model("PlaceModel", PlaceSchema);
-    // user model apis.
+    // place model apis.
     var api = {
         createPlace: createPlace,
         findPlaceById: findPlaceById,
@@ -50,7 +50,7 @@ module.exports = function () {
     }
 
     /**
-     * to find place by id.
+     * to find place by yelpid.
      * @param id
      * place id
      * @returns {*}
@@ -62,7 +62,7 @@ module.exports = function () {
 
 
     /**
-     * update a user.
+     * update a place.
      * @param pid
      * user id
      * @param place
@@ -104,7 +104,7 @@ module.exports = function () {
     }
 
     /**
-     * delete a place
+     * delete places for user
      * @param pid
      * place id
      * @returns {Promise}

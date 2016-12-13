@@ -3,7 +3,7 @@ module.exports = function () {
     var mongoose = require("mongoose");
     var CommentSchema = require('./comment.schema.server')();
     var CommentModel = mongoose.model("CommentModel", CommentSchema);
-    // user model apis.
+    // comments model apis.
     var api = {
         createComment: createComment,
         findCommentById: findCommentById,
@@ -29,6 +29,10 @@ module.exports = function () {
         model = _model;
     }
 
+    /**
+     * find latest ten comments
+     * @returns {Array.<T>|Query|Aggregate|*}
+     */
     function findComments() {
         return CommentModel.find().limit(10).sort({"dateCreated": -1});
     }
@@ -69,15 +73,14 @@ module.exports = function () {
             {_id: cid},
             {
                 $set: {
-                    text: comment.text,
-                    rating: comment.rating
+                    text: comment.text
                 }
             }
         );
     }
 
     /**
-     * update a comment.
+     * create a reply.
      * @param cid
      * comment id
      * @param comment
@@ -90,6 +93,13 @@ module.exports = function () {
         );
     }
 
+    /**
+     * update a reply
+     * @param cid
+     * @param rid
+     * @param reply
+     * @returns {Query|*}
+     */
     function updateReply(cid, rid, reply) {
         return CommentModel.update(
             {
@@ -100,6 +110,12 @@ module.exports = function () {
         );
     }
 
+    /**
+     * delete a reply
+     * @param cid
+     * @param rid
+     * @returns {Query|*}
+     */
     function deleteReply(cid, rid) {
         return CommentModel.update(
             {

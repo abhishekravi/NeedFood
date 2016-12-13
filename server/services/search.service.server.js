@@ -62,6 +62,11 @@ module.exports = function (app) {
         });
     }
 
+    /**
+     * to perform yelp business search
+     * @param req
+     * @param res
+     */
     function searchBusiness(req, res) {
         var params = {
             oauth_consumer_key: process.env.YELP_CONSUMER_KEY, //Consumer Key
