@@ -43,7 +43,6 @@
             AdminService.deleteUser(uid)
                 .then(function () {
                     getUsers();
-                    console.log('user deleted');
                 },function (e) {
                     console.log('user not deleted');
             });

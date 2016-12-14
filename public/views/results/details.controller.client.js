@@ -61,8 +61,10 @@
                             if (user.data != '0') {
                                 RatingService.getRating(vm.user._id, vm.place.id)
                                     .then(function (rating) {
-                                        vm.rating = rating.data;
-                                        setRating(vm.rating.value);
+                                        if(rating.data) {
+                                            vm.rating = rating.data;
+                                            setRating(vm.rating.value);
+                                        }
                                     });
                             }
                             CrudService.getComments(vm.pid)
@@ -79,7 +81,6 @@
                                         }
                                     }
                                 });
-                            console.log(vm.comment);
                         });
 
                 });

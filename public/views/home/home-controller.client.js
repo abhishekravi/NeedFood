@@ -143,7 +143,6 @@
             RatingService.getRatingsForUser(users)
                 .then(function (ratings) {
                     setCommentRatings(ratings.data);
-                    console.log('got ratings');
                 },function (e) {
                     console.log(e);
                 });
