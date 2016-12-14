@@ -158,7 +158,6 @@
                     vm.comment = comment.data;
                     CrudService.getComments(vm.place.id)
                         .then(function (comments) {
-                            console.log(comments.data);
                             vm.comments = comments.data;
                         });
                 }, function (e) {

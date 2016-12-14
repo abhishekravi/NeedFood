@@ -64,8 +64,6 @@
                     vm.results = result.data;
                     vm.query = result.data.query;
                     numOfPages = vm.results.total / itemsPerPage;
-                    console.log('total:' + vm.results.total);
-                    console.log('num of pages:' + numOfPages);
                     for (var i = 0; i < numOfPages; i++)
                         vm.pageNums[i] = i + 1;
                 }, function (error) {
